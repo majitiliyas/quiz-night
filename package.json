@@ -1,0 +1,17 @@
+{
+  "name": "quiz-night",
+  "version": "1.0.0",
+  "description": "Web Development 2 - Individual Project: Quiz Night (Express + Axios + EJS + Open Trivia DB API)",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Yelubay Iliyas",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}

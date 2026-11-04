@@ -1,0 +1,27 @@
+<%- include("partials/header.ejs") %>
+
+<section class="card result">
+  <div class="rank-emoji"><%= rank.emoji %></div>
+  <h1><%= player %>, you are a <span class="accent"><%= rank.name %></span>!</h1>
+  <p class="score"><%= score %> / <%= total %></p>
+  <div class="bar"><div class="bar-fill" style="width: <%= percent %>%"></div></div>
+  <p class="muted"><%= percent %>% correct answers</p>
+  <a href="/" class="btn">Play again 🔁</a>
+</section>
+
+<h2 class="section-title">Your answers</h2>
+
+<% review.forEach((r, index) => { %>
+  <article class="card review <%= r.isCorrect ? "review-ok" : "review-bad" %>">
+    <p class="muted">#<%= index + 1 %> · <%= r.difficulty %></p>
+    <h3><%= r.question %></h3>
+    <% if (r.isCorrect) { %>
+      <p>✅ <strong><%= r.correct %></strong></p>
+    <% } else { %>
+      <p>❌ Your answer: <strong><%= r.userAnswer ? r.userAnswer : "no answer" %></strong></p>
+      <p>✔️ Correct answer: <strong><%= r.correct %></strong></p>
+    <% } %>
+  </article>
+<% }) %>
+
+<%- include("partials/footer.ejs") %>

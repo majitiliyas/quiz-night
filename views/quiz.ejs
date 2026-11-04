@@ -1,0 +1,32 @@
+<%- include("partials/header.ejs") %>
+
+<section class="hero">
+  <h1>Good luck, <span class="accent"><%= player %></span>!</h1>
+  <p><%= questions.length %> question<%= questions.length === 1 ? "" : "s" %>. Choose one answer for each.</p>
+</section>
+
+<form action="/quiz/<%= quizId %>/check" method="POST">
+  <% questions.forEach((q, index) => { %>
+    <article class="card question">
+      <div class="question-top">
+        <span class="badge">#<%= index + 1 %></span>
+        <span class="badge badge-<%= q.difficulty %>"><%= q.difficulty %></span>
+        <span class="muted"><%= q.category %></span>
+      </div>
+      <h2><%= q.question %></h2>
+
+      <div class="answers">
+        <% q.answers.forEach((answer, a) => { %>
+          <label class="answer" for="q<%= index %>a<%= a %>">
+            <input type="radio" id="q<%= index %>a<%= a %>" name="q<%= index %>" value="<%= answer %>">
+            <span><%= ["A", "B", "C", "D"][a] %>. <%= answer %></span>
+          </label>
+        <% }) %>
+      </div>
+    </article>
+  <% }) %>
+
+  <button type="submit" class="btn btn-big">Check my answers ✅</button>
+</form>
+
+<%- include("partials/footer.ejs") %>

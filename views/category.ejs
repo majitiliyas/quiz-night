@@ -1,0 +1,25 @@
+<%- include("partials/header.ejs") %>
+
+<section class="card">
+  <p><a href="/categories">← All categories</a></p>
+  <h1><%= category.name %></h1>
+  <p class="score"><%= stats.total %> <span class="muted">questions in total</span></p>
+
+  <% stats.levels.forEach((level) => { %>
+    <div class="level">
+      <div class="level-top">
+        <span class="badge badge-<%= level.name %>"><%= level.name %></span>
+        <span><%= level.count %> (<%= level.percent %>%)</span>
+      </div>
+      <div class="bar"><div class="bar-fill bar-<%= level.name %>" style="width: <%= level.percent %>%"></div></div>
+    </div>
+  <% }) %>
+
+  <% if (stats.total === 0) { %>
+    <p class="alert alert-warning">This category has no questions yet.</p>
+  <% } else { %>
+    <a href="/?category=<%= category.id %>" class="btn">Play this category 🎯</a>
+  <% } %>
+</section>
+
+<%- include("partials/footer.ejs") %>

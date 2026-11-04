@@ -1,0 +1,18 @@
+<%- include("partials/header.ejs") %>
+
+<section class="hero">
+  <h1>All <span class="accent">categories</span></h1>
+  <p>Click a category to see how many questions it has.</p>
+</section>
+
+<% if (categories.length === 0) { %>
+  <p class="card">No categories found.</p>
+<% } else { %>
+  <div class="grid">
+    <% categories.forEach((cat) => { %>
+      <a href="/categories/<%= cat.id %>" class="card tile"><%= cat.name %></a>
+    <% }) %>
+  </div>
+<% } %>
+
+<%- include("partials/footer.ejs") %>

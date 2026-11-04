@@ -1,0 +1,50 @@
+<%- include("partials/header.ejs") %>
+
+<section class="hero">
+  <h1>Ready for <span class="accent">Quiz Night</span>?</h1>
+  <p>Pick a topic, choose how hard it should be and check how smart you really are.</p>
+</section>
+
+<section class="card">
+  <% if (apiWarning) { %>
+    <p class="alert alert-warning"><%= apiWarning %></p>
+  <% } %>
+
+  <% if (errors.length > 0) { %>
+    <ul class="alert alert-error">
+      <% errors.forEach((error) => { %>
+        <li><%= error %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <form action="/quiz" method="POST" class="quiz-form">
+    <label for="player">Your name</label>
+    <input type="text" id="player" name="player" value="<%= input.player %>" placeholder="e.g. Iliyas">
+    <small>From 2 to 20 characters.</small>
+
+    <label for="category">Category</label>
+    <select id="category" name="category">
+      <option value="">Any category 🎲</option>
+      <% categories.forEach((cat) => { %>
+        <option value="<%= cat.id %>" <%= String(input.category) === String(cat.id) ? "selected" : "" %>><%= cat.name %></option>
+      <% }) %>
+    </select>
+
+    <label for="difficulty">Difficulty</label>
+    <select id="difficulty" name="difficulty">
+      <option value="" <%= input.difficulty === "" ? "selected" : "" %>>Mixed</option>
+      <option value="easy" <%= input.difficulty === "easy" ? "selected" : "" %>>Easy 🙂</option>
+      <option value="medium" <%= input.difficulty === "medium" ? "selected" : "" %>>Medium 😐</option>
+      <option value="hard" <%= input.difficulty === "hard" ? "selected" : "" %>>Hard 🔥</option>
+    </select>
+
+    <label for="amount">Number of questions</label>
+    <input type="number" id="amount" name="amount" min="1" max="10" value="<%= input.amount %>">
+    <small>From 1 to 10.</small>
+
+    <button type="submit" class="btn">Start the quiz 🚀</button>
+  </form>
+</section>
+
+<%- include("partials/footer.ejs") %>

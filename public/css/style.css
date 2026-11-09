@@ -3,13 +3,16 @@
 
 body {
   margin: 0;
-  font-family: system-ui, Arial, sans-serif;
+  font-family: "Pixelify Sans", system-ui, sans-serif;
   background: #4C1D3F;
   color: #f1f1f6;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
+
+/* form elements do not inherit the font by default */
+input, select, button { font-family: inherit; }
 
 a { color: #ffb894; }
 

@@ -127,13 +127,12 @@ async function showCategoryDetails(req, res, next) {
     next(err);
   }
 }
-
-// gives a funny title for the score
+// gives a funny title for the score 
 function getRank(percent) {
   if (percent === 100) return { name: "Trivia Legend", emoji: "🏆" };
   if (percent >= 70) return { name: "Big Brain", emoji: "🧠" };
-  if (percent >= 40) return { name: "Not Bad At All", emoji: "😎" };
-  return { name: "Keep Practicing", emoji: "📚" };
+  if (percent >= 40) return { name: "Quiz Rookie", emoji: "😎" };
+  return { name: "Sleepy Beginner", emoji: "😴" };
 }
 
 module.exports = { renderHome, showHome, startQuiz, checkQuiz, showCategories, showCategoryDetails };

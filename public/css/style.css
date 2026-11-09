@@ -3,7 +3,7 @@
 
 body {
   margin: 0;
-  font-family: "Pixelify Sans", system-ui, sans-serif;
+  font-family: system-ui, Arial, sans-serif;
   background: #4C1D3F;
   color: #f1f1f6;
   min-height: 100vh;
@@ -13,6 +13,11 @@ body {
 
 /* form elements do not inherit the font by default */
 input, select, button { font-family: inherit; }
+
+/* pixel font only for decoration: logo, menu, titles, buttons */
+h1, .logo, nav a, .btn, .section-title {
+  font-family: "Pixelify Sans", system-ui, sans-serif;
+}
 
 a { color: #ffb894; }
 

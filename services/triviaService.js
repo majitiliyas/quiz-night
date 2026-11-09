@@ -31,14 +31,7 @@ async function getQuestions(amount, category, difficulty) {
   if (category) params.category = category;
   if (difficulty) params.difficulty = difficulty;
 
-  let response = await axios.get(`${BASE_URL}/api.php`, { params: params, timeout: TIMEOUT });
-
-  // response_code 5 = rate limit (1 request per 5 seconds) -> wait 5 seconds and try ONE more time
-  if (response.data.response_code === 5) {
-    console.log("Rate limit from the API, waiting 5 seconds and trying again...");
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-    response = await axios.get(`${BASE_URL}/api.php`, { params: params, timeout: TIMEOUT });
-  }
+  const response = await requestQuestions(params);
 
   // not enough questions -> empty array, the controller shows a "no results" message
   if (response.data.response_code === 1) {
@@ -58,6 +51,27 @@ async function getQuestions(amount, category, difficulty) {
       answers: shuffle([correct, ...wrong]), // mix answers so the correct one is not always first
     };
   });
+}
+
+// Sends the questions request.
+// The API allows 1 request per 5 seconds. It can say "too many requests" in two ways:
+// response_code 5 inside the JSON, or HTTP status 429. In both cases we wait 5 seconds and try ONE more time.
+async function requestQuestions(params) {
+  try {
+    const response = await axios.get(`${BASE_URL}/api.php`, { params: params, timeout: TIMEOUT });
+    if (response.data.response_code !== 5) {
+      return response;
+    }
+  } catch (err) {
+    // any other error (timeout, no internet, 500...) goes to the errorHandler
+    if (!err.response || err.response.status !== 429) {
+      throw err;
+    }
+  }
+
+  console.log("Rate limit from the API, waiting 5 seconds and trying again...");
+  await new Promise((resolve) => setTimeout(resolve, 5000));
+  return axios.get(`${BASE_URL}/api.php`, { params: params, timeout: TIMEOUT });
 }
 
 // Request 3: how many questions a category has (by difficulty)

@@ -36,6 +36,7 @@ a { color: #ffb894; }
 .logo span { color: #ffb894; }
 nav a { color: #fff; text-decoration: none; margin-left: 18px; }
 nav a:hover { color: #ffb894; }
+nav a:hover { text-decoration: underline; text-underline-offset: 6px; }
 
 main { width: 100%; max-width: 800px; margin: 0 auto; padding: 24px 16px; flex: 1; }
 

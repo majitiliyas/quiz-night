@@ -28,8 +28,12 @@ function errorHandler(err, req, res, next) {
     // never show the real error text of our own bugs to the user
     message = "Something went wrong on our side.";
   }
+  // short advice for the user, shown under the message
+  let hint = "Please go back and try again.";
+  if (status === 429) hint = "The trivia API allows only one request per 5 seconds. Wait a moment and try again.";
+  if (status === 404) hint = "Check the address or go back to the home page.";
+  if (status === 503 || status === 504) hint = "Check your internet connection and try again in a minute.";
 
-  res.status(status).render("error", { title: "Error", status: status, message: message });
-}
-
+  res.status(status).render("error", { title: "Error", status: status, message: message, hint: hint });
+};
 module.exports = errorHandler;

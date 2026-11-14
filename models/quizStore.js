@@ -3,9 +3,9 @@
 const quizzes = {};
 let nextId = 1;
 
-function saveQuiz(player, questions) {
+function saveQuiz(player, questions, settings) {
   const id = nextId++;
-  quizzes[id] = { id: id, player: player, questions: questions };
+  quizzes[id] = { id: id, player: player, questions: questions, settings: settings };
   return id;
 }
 

@@ -22,10 +22,14 @@ async function renderHome(res, errors, input, status) {
   });
 }
 
-// GET /
 async function showHome(req, res) {
-  // ?category=18 comes from the "Play this category" button
-  const input = { player: "", category: req.query.category || "", difficulty: "", amount: 5 };
+  // the form can be filled from the URL: /?player=Ili&category=18&difficulty=easy&amount=5
+  const input = {
+    player: req.query.player || "",
+    category: req.query.category || "",
+    difficulty: req.query.difficulty || "",
+    amount: req.query.amount || 5,
+  };
   await renderHome(res, [], input);
 }
 
@@ -45,8 +49,8 @@ async function startQuiz(req, res, next) {
       );
     }
 
-    // save the quiz with correct answers on the server
-    const quizId = quizStore.saveQuiz(player.trim(), questions);
+    // save the quiz with correct answers and the chosen settings on the server
+    const quizId = quizStore.saveQuiz(player.trim(), questions, { category, difficulty, amount });
 
     res.render("quiz", {
       title: "Quiz",
@@ -86,6 +90,15 @@ function checkQuiz(req, res, next) {
 
   quizStore.deleteQuiz(quiz.id); // one quiz can be checked only once
 
+  // link for the "Play again" button: the home page with the same settings already filled in
+  const s = quiz.settings;
+  const replayUrl = "/?" + new URLSearchParams({
+    player: quiz.player,
+    category: s.category,
+    difficulty: s.difficulty,
+    amount: s.amount,
+  }).toString();
+
   res.render("result", {
     title: "Result",
     player: quiz.player,
@@ -94,6 +107,7 @@ function checkQuiz(req, res, next) {
     percent: percent,
     rank: getRank(percent),
     review: review,
+    replayUrl: replayUrl,
   });
 }
 

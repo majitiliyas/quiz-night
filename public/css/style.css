@@ -141,3 +141,10 @@ input:focus, select:focus { outline: none; border-color: #ffb894; }
   .answers { grid-template-columns: 1fr; }
   nav a { margin: 0 16px 0 0; }
 }
+
+/* answers react to the mouse */
+.answer { transition: transform 0.15s, background 0.15s; }
+.answer:hover { transform: translateY(-2px); background: #A33757; }
+
+/* result page: the score block is a bit bigger */
+.result .score { font-size: 48px; }

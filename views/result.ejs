@@ -19,7 +19,11 @@
     <% if (r.isCorrect) { %>
       <p>✅ <strong><%= r.correct %></strong></p>
     <% } else { %>
-      <p>❌ Your answer: <strong><%= r.userAnswer ? r.userAnswer : "no answer" %></strong></p>
+      <% if (r.userAnswer) { %>
+        <p>❌ Your answer: <strong><%= r.userAnswer %></strong></p>
+      <% } else { %>
+        <p>⏭️ You skipped this question</p>
+      <% } %>
       <p>✔️ Correct answer: <strong><%= r.correct %></strong></p>
     <% } %>
   </article>

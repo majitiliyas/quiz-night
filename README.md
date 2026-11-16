@@ -25,7 +25,11 @@ difficulty and number of questions. The server uses **Axios** to get questions f
 - Categories are cached in memory, because the API allows only 1 request per 5 seconds; if the rate limit still happens, the server waits 5 seconds and tries once more
 - Error handling: timeouts, no connection, 4xx/5xx, rate limit, "not enough questions" (shown on the form), 404 page. The API needs no key, so there is no "invalid key" case
 - Responsive design (desktop + mobile), EJS partials for header and footer
-
+- "Play again" button that starts a new quiz with the same settings
+- Fun ranks for the score (nouns, so "you are a ..." sounds right)
+- Error page with a hint for the user and a "Try again" button
+- Request logger prints time, IP, method, URL, status and duration (static files are skipped)
+ç
 ## Routes
 | Method | Route | Description |
 |---|---|---|
@@ -56,7 +60,7 @@ quiz-night/
 ```
 
 ## Code comments
-Every file in the project has short comments in English to make the code easy to read and check:
+Every file in the project has short comments in English to make the code easy to read and check(for teacher):
 - `app.js`: the order of middleware and why it matters
 - `routes/`: which URL calls which controller function
 - `controllers/`: the logic of each page
@@ -66,7 +70,7 @@ Every file in the project has short comments in English to make the code easy to
 
 ## Installation and run
 ```bash
-git clone https://github.com/<your-username>/quiz-night.git
+git clone https://github.com/<majitiliyas>/quiz-night.git
 cd quiz-night
 npm install
 cp .env.example .env     # on Windows: copy .env.example .env

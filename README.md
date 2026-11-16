@@ -19,21 +19,21 @@ difficulty and number of questions. The server uses **Axios** to get questions f
 - Form with name, category, difficulty and number of questions (1–10)
 - Server-side validation with friendly messages (the form keeps what the user typed)
 - Data processing: answers are decoded and **shuffled**, the score and **percentage** are calculated,
-  a **rank** is given (Trivia Legend 🏆 / Big Brain 🧠 / Not Bad 😎 / Keep Practicing 📚),
+  a **rank** is given (Trivia Legend 🏆 / Big Brain 🧠 / Quiz Rookie 😎 / Sleepy Beginner 😴),
   categories are **sorted** A–Z and their names are shortened, difficulty **percentages** are calculated
 - Correct answers are kept on the server (in `models/quizStore.js`), not in the HTML
 - Categories are cached in memory, because the API allows only 1 request per 5 seconds; if the rate limit still happens, the server waits 5 seconds and tries once more
 - Error handling: timeouts, no connection, 4xx/5xx, rate limit, "not enough questions" (shown on the form), 404 page. The API needs no key, so there is no "invalid key" case
-- Responsive design (desktop + mobile), EJS partials for header and footer
-- "Play again" button that starts a new quiz with the same settings
-- Fun ranks for the score (nouns, so "you are a ..." sounds right)
 - Error page with a hint for the user and a "Try again" button
+- "Play again" button that starts a new quiz with the same settings
+- Result page shows every question: correct, wrong or skipped
 - Request logger prints time, IP, method, URL, status and duration (static files are skipped)
-ç
+- Responsive design (desktop + mobile), EJS partials for header and footer
+
 ## Routes
 | Method | Route | Description |
 |---|---|---|
-| GET | `/` | home page with the quiz form |
+| GET | `/` | home page with the quiz form (the form can be filled from the URL, e.g. `/?category=18&difficulty=easy`) |
 | POST | `/quiz` | validates the form, gets questions from the API, shows the quiz |
 | POST | `/quiz/:id/check` | checks answers, shows the result page |
 | GET | `/categories` | list of all categories |
@@ -43,24 +43,26 @@ difficulty and number of questions. The server uses **Axios** to get questions f
 ## Project structure
 ```
 quiz-night/
-├── app.js                    # settings, middleware, routes
-├── routes/quizRoutes.js      # URLs -> controller functions
+├── app.js                         # settings, middleware, routes
+├── routes/quizRoutes.js           # URLs -> controller functions
 ├── controllers/quizController.js  # logic of the pages
-├── services/triviaService.js # all Axios requests to the API
-├── models/quizStore.js       # quizzes in memory
+├── services/triviaService.js      # all Axios requests to the API
+├── models/quizStore.js            # quizzes and their settings in memory
 ├── middleware/
-│   ├── logger.js             # custom: logs method, URL, status, time
-│   ├── validateQuiz.js       # custom: checks the form
-│   ├── notFound.js           # 404 handler
-│   └── errorHandler.js       # centralized error handler (err, req, res, next)
+│   ├── logger.js                  # custom: logs time, IP, method, URL, status, duration
+│   ├── validateQuiz.js            # custom: checks the form
+│   ├── notFound.js                # 404 handler
+│   └── errorHandler.js            # centralized error handler (err, req, res, next)
 ├── views/ (index, quiz, result, categories, category, 404, error + partials/)
-├── public/css/style.css
+├── public/ (css/style.css, images/logo.svg)
+├── screenshots/
 ├── .env.example
 └── package.json
 ```
 
 ## Code comments
-Every file in the project has short comments in English to make the code easy to read and check(for teacher):
+The comments in the code are there only to help the teacher navigate the project and read the code faster.
+Every file has short comments in English:
 - `app.js`: the order of middleware and why it matters
 - `routes/`: which URL calls which controller function
 - `controllers/`: the logic of each page
@@ -70,7 +72,7 @@ Every file in the project has short comments in English to make the code easy to
 
 ## Installation and run
 ```bash
-git clone https://github.com/<majitiliyas>/quiz-night.git
+git clone https://github.com/majitiliyas/quiz-night.git
 cd quiz-night
 npm install
 cp .env.example .env     # on Windows: copy .env.example .env
@@ -95,5 +97,7 @@ TRIVIA_API_URL=https://opentdb.com
 
 ## Credits
 - Questions: [Open Trivia DB](https://opentdb.com) (CC BY-SA 4.0)
+- Font: [Pixelify Sans](https://fonts.google.com/specimen/Pixelify+Sans) from Google Fonts
 - Shuffle algorithm: Fisher–Yates (https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle)
 - Project structure is based on the course lectures (Express, Middleware, EJS, Axios)
+- AI use is described in `AI_DECLARATION.md`
